@@ -1,0 +1,129 @@
+$ cat README.txt
+sudo asl-menu
+
+sudo systemctl restart asterisk.service
+
+asl-find-sound
+
+sudo /usr/bin/sa818-menu
+1  Band                            : Wide
+2  Bandwidth                       : 438.9000 MHz
+3  Receive Frequency               : 438.9000 MHz
+4  Transmit Frequency              : 438.9000 MHz
+5  Squelch Value (0-8)             : 1
+6  Volume (1-8)                    : 2
+7  Sub-audible tone                : CTCSS
+8  CTCSS RX Tone                   : 118.8 Hz
+9  CTCSS TX Tone                   : 118.8 Hz
+10 CTCSS Reverse Burst (Tail Tone) : Closed
+E  Pre-Emphasis/De-emphasis        : Disabled
+H  High pass Filter                : Disabled
+L  Low pass Filter                 : Disabled
+
+P  Serial Port                     : /dev/ttyUSB0
+S  Connection Speed                : Default
+
+
+# sa818 --port /dev/ttyUSB0 radio --bw 1 --frequency 438.9000 --squelch 1 --ctcss 118.8,118.8 --tail close
+SA818: INFO: +DMOSETGROUP:0, BW: Wide, Frequency (RX: 438.9000 / TX: 438.9000), CTCSS (TX: 118.8 / RX: 118.8), squelch: 1, OK
+SA818: INFO: +DMOSETTAIL:0 tail: close
+
+# sa818 --port /dev/ttyUSB0 volume --level 2
+SA818: INFO: +DMOSETVOLUME:0 Volume level: 2, OK
+
+# sa818 --port /dev/ttyUSB0 filters --emphasis disable --highpass disable --lowpass disable
+SA818: INFO: +DMOSETFILTER:0 filters [Pre/De]emphasis: disabled, high-pass: disabled, low-pass: disabled
+
+SA818 update complete
+
+
+
+
+[supermon files]
+/var/www/html/supermon
+
+
+
+[SHARI Settings]
+Saved radio tuning settings to simpleusb.conf
+
+Active Simple USB Radio device is [######].
+1) Select active USB device
+2) Set Rx Voice Level (using display)
+3) Set Transmit A Level (currently '900')
+4) Set Transmit B Level (currently '900')
+B) Toggle RX Boost (currently 'disabled')
+C) Toggle Pre-emphasis (currently 'enabled')
+D) Toggle De-emphasis (currently 'enabled')
+E) Toggle Echo Mode (currently 'disabled')
+F) Flash (Toggle PTT and Tone output several times)
+G) Toggle PL Filter (currently 'enabled')
+H) Toggle PTT mode (currently 'ground')
+I) Change Carrier From (currently 'usbinvert')
+J) Change CTCSS From (currently 'no')
+K) Change RX On Delay (currently '0')
+L) Change TX Off Delay (currently '0')
+P) Print Current Parameter Values
+S) Swap Current USB device with another USB device
+T) Toggle Transmit Test Tone/Keying (currently 'disabled')
+
+
+
+[Key bits from simpleusb.conf]
+$ grep -v "^;" /etc/asterisk/simpleusb.conf | grep -v "^$"
+[general]
+[node-main](!)
+eeprom = 0  ; EEPROM installed: 0,1
+hdwtype = 0  ; Leave this set to 0 for USB sound fobs designed for app_rpt
+rxboost = no  ; no = 20db attenuator inserted, yes = 20db attenuator removed
+carrierfrom = usbinvert  ; no,usb,usbinvert
+ctcssfrom = usbinvert  ; no,usb,usbinvert
+deemphasis = no  ; enable de-emphasis (input from discriminator)
+plfilter = yes  ; enable PL filter
+rxondelay = 0  ; Number of 20mSec intervals following the release of PTT.
+txoffdelay = 0  ; Ignore the reciever for a specified number of 20 millisecond
+txmixa = voice  ; Left channel output (A): no,voice
+txmixb = no  ; Right channel output (B): no,voice
+invertptt = no  ; Invert PTT: no,yes
+preemphasis = no  ; Perform standard 6db/octave pre-emphasis
+[######](node-main)
+deemphasis = yes
+preemphasis = yes
+ctcssfrom = no
+devstr = 1-1.2:1.0
+rxmixerset = 950
+txmixaset = 900
+txmixbset = 900
+
+
+
+[How to play the time and ID at the top of the hour]
+
+1. Create /etc/asterisk/local/saytime.sh that contains:
+
+#!/usr/bin/bash
+/usr/bin/sudo asterisk -rx "rpt cmd 621751 status 12 xxx"
+/usr/bin/sudo asterisk -rx "rpt cmd 621751 status 11 xxx"
+
+2. Add a crontab entry:
+
+00 * * * * /etc/asterisk/local/saytime.sh
+
+
+
+[Skywarn installation and configuration]
+
+https://github.com/Mason10198/SkywarnPlus?tab=readme-ov-file
+Use Debian 12 and Newer (ASL 3+)
+
+apt install unzip python3 python3-pip ffmpeg
+apt install python3-ruamel.yaml python3-requests python3-dateutil python3-pydub
+cd /usr/local/bin
+wget https://github.com/Mason10198/SkywarnPlus/releases/latest/download/SkywarnPlus.zip
+unzip SkywarnPlus.zip
+rm SkywarnPlus.zip
+cd SkywarnPlus
+chmod +x *.py
+nano config.yaml
+  - ######
+  - ######
