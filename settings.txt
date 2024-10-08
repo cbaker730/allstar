@@ -3,6 +3,22 @@ sudo asl-menu
 
 sudo systemctl restart asterisk.service
 
+
+
+[Important files]
+/etc/asterisk/rpt.conf
+/etc/asterisk/iax.conf
+/usr/local/bin/rc.updatenodelist
+
+
+
+[To change the wifi network the node connects to]
+sudo nmtui
+
+
+
+[Setup and configuration info for the SHARI sound card device]
+
 asl-find-sound
 
 sudo /usr/bin/sa818-menu
