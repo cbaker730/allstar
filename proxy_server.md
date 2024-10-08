@@ -12,9 +12,34 @@ Select a reliable proxy service that supports the protocols needed for AllStar (
 
 1. Install the proxy software on a stable internet connection (e.g., a cloud server or home network).
 
+   apt update
+   apt install squid
+
 2. Configure the proxy to allow traffic on the necessary ports for AllStar (usually 4569 for IAX2).
 
+   # Squid normally listens to port 3128
+   http_port 4569 
+
 3. Set up authentication to secure your proxy access.
+
+   printf "linuxconfig:$(openssl passwd 'Passw0rd1!')\n" | sudo tee -a /etc/squid/httpauth
+
+   Added to /etc/squid/squid.conf:
+
+   auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/httpauth
+   auth_param basic realm proxy
+   acl myauth proxy_auth REQUIRED
+
+
+   http_access allow myauth    # has to be above http_access deny all
+
+
+   sudo systemctl restart squid
+   sudo ufw allow 'Squid'
+
+   
+
+   
 
 ## Configure Your AllStar Node
 
