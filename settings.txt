@@ -127,3 +127,19 @@ chmod +x *.py
 nano config.yaml
   - ######
   - ######
+
+
+
+[Use startup_macro to automatically connect to a node when the device starts]
+
+in /etc/asterisk/rpt.conf:
+
+
+[<NODE_NUMBER_HERE>](node-main)
+statpost_url = http://stats.allstarlink.org/uhandler
+idrecording = |i<CALLSIGN_HERE>
+duplex = 1
+hangtime = 400                                                                                                         >;;;;;;;;;;;;;;;;;;; Your node settings here ;;;;;;;;;;;;;;;;;;;
+;startup_macro = *8132000
+startup_macro = *355553             ; Connect to parrot node 55553 at startup
+
