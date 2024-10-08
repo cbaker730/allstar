@@ -1,3 +1,6 @@
+Many thanks to KG4FJC's youtube video: https://www.youtube.com/watch?v=z7Dmwx_EGSA
+
+
 # Create droplet or instance
 
 
