@@ -77,9 +77,16 @@ Many thanks to KG4FJC's youtube video: https://www.youtube.com/watch?v=z7Dmwx_EG
     PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
     
     [Peer]
-    # Allstar node
-    PublicKey = <client_public_key>
-    AllowedIPs = 10.0.74.2/24
+    # Allstar node 12345
+    PublicKey = <client1_public_key>
+    AllowedIPs = 10.10.10.2/24
+
+    [Peer]                         <-- if multiple nodes, simply add another Peer
+    # Allstar node 12346
+    PublicKey = <client2_public_key>
+    AllowedIPs = 10.10.10.3/24
+
+
 
 
 
