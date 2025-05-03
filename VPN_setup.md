@@ -1,3 +1,6 @@
+Note: A much simpler solution is to create a cloud radioless node and then connect the cloud node to the target and connect the local node with the rotating IP address to your cloud node.
+
+
 Many thanks to KG4FJC's youtube video: https://www.youtube.com/watch?v=z7Dmwx_EGSA
 
 
