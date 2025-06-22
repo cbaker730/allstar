@@ -1,14 +1,13 @@
-# This script queries asterisk to see whether the node 621750 on which it runs
-# is connected to several other nodes 47970, 621751, 621752, and 621753 and
-# writes the connected nodes to a file on the apache web server for Home Assistant
-# to retrieve for dashboard updates
+# This script queries asterisk to see whether the node on which it runs
+# is connected to other nodes and writes the connected nodes to a file
+# on the web server for Home Assistant to retrieve for dashboard updates
 
 #!/bin/bash
 
 # Define the output file
 OUTPUT_FILE="/var/www/html/connections.txt"
-SEARCH_STRINGS=("47970" "621750" "621751" "621752" "621753")
-COMMAND='/usr/sbin/asterisk -rx "rpt nodes 621750"'
+SEARCH_STRINGS=("#####" "#####")
+COMMAND='/usr/sbin/asterisk -rx "rpt nodes <NODE>"'
 
 
 # Write timestamp to file
